@@ -40,7 +40,7 @@ RSpec.describe StocksController, type: :controller do
     it "assigns all stocks as @stocks" do
       stock = Stock.create! valid_attributes
       get :index, {}, valid_session
-      expect(assigns(:stocks)).to eq([stock])
+      expect(assigns(:stocks)).to eq(Stock.all)
     end
   end
 
