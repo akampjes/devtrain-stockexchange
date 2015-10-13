@@ -42,6 +42,7 @@ group :development, :test do
   gem 'guard-rspec'
   gem 'rb-fsevent' if `uname` =~ /Darwin/
   gem 'capybara'
+  gem 'factory_girl_rails'
 end
 
 group :development do
