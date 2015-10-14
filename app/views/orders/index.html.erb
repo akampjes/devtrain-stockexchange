@@ -16,8 +16,8 @@
   <tbody>
     <% @orders.each do |order| %>
       <tr>
-        <td><%= order.stock_id %></td>
-        <td><%= order.type %></td>
+        <td><%= order.stock.symbol %></td>
+        <td><%= order.kind %></td>
         <td><%= order.quantity %></td>
         <td><%= order.price %></td>
         <td><%= link_to 'Show', order %></td>

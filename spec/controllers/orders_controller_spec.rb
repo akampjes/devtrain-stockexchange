@@ -86,9 +86,9 @@ RSpec.describe OrdersController, type: :controller do
         expect(assigns(:order)).to be_persisted
       end
 
-      it "redirects to the created order" do
+      it "redirects back to orders" do
         post :create, {:order => valid_attributes}, valid_session
-        expect(response).to redirect_to(Order.last)
+        expect(response).to redirect_to(orders_path)
       end
     end
 
