@@ -2,10 +2,8 @@ require 'rails_helper'
 
 # this is where i include factorygirl
 RSpec.describe Order, kind: :model do
-  let(:stock) { Stock.create!(name: 'stockname', symbol: 'stocksym') }
-
   it 'is valid' do
-    order = Order.new(stock: stock, price: 1, quantity: 1, kind: :buy)
+    order = build(:order)
     expect(order).to be_valid
   end
 
@@ -14,12 +12,14 @@ RSpec.describe Order, kind: :model do
 
   describe 'invalid orders' do
     it 'requires a kind' do
-      order = Order.new(stock: stock, price: 1, quantity: 1)
+      order = build(:order)
+      order.kind = nil
       expect(order).to be_invalid
     end
 
     it 'requires a stock' do
-      order = Order.new(kind: :buy, price: 1, quantity: 1)
+      order = build(:order)
+      order.stock = nil
       expect(order).to be_invalid
     end
   end
