@@ -19,12 +19,13 @@ require 'rails_helper'
 # that an instance is receiving a specific message.
 
 RSpec.describe OrdersController, type: :controller do
+  let (:user) { create(:user) }
 
   # This should return the minimal set of attributes required to create a valid
   # Order. As you add validations to Order, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    {kind: 'buy', quantity: 1, price: 1, stock_id: create(:stock).id, user: user}
   }
 
   let(:invalid_attributes) {
@@ -35,6 +36,10 @@ RSpec.describe OrdersController, type: :controller do
   # in order to pass any filters (e.g. authentication) defined in
   # OrdersController. Be sure to keep this updated too.
   let(:valid_session) { {} }
+
+  before do
+    sign_in user
+  end
 
   describe "GET #index" do
     it "assigns all orders as @orders" do
