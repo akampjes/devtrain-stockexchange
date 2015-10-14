@@ -6,7 +6,7 @@
   <thead>
     <tr>
       <th>Stock</th>
-      <th>Type</th>
+      <th>Order type</th>
       <th>Quantity</th>
       <th>Price</th>
       <th colspan="1"></th>
@@ -16,7 +16,7 @@
   <tbody>
     <% @orders.each do |order| %>
       <tr>
-        <td><%= order.stock.symbol %></td>
+        <td><%= link_to order.stock.symbol, order.stock %></td>
         <td><%= order.kind %></td>
         <td><%= order.quantity %></td>
         <td><%= order.price %></td>
