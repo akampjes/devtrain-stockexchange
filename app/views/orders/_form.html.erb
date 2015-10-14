@@ -15,16 +15,13 @@
     <%= f.association :stock %>
   </div>
   <div class="field">
-    <%= f.label :kind %><br>
-    <%= f.text_field :kind %>
+    <%= f.input :kind, collection: [:buy, :sell] %>
   </div>
   <div class="field">
-    <%= f.label :quantity %><br>
-    <%= f.number_field :quantity %>
+    <%= f.input :quantity %>
   </div>
   <div class="field">
-    <%= f.label :price %><br>
-    <%= f.number_field :price %>
+    <%= f.input :price %>
   </div>
   <div class="actions">
     <%= f.submit %>

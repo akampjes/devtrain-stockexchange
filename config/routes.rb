@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :orders
+  resources :orders, only: [:index, :new, :create, :destroy]
   devise_for :users
   get 'home/index'
 
