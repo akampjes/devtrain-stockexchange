@@ -2,5 +2,26 @@
 
 <h2><%= @stock.name %> (<%= @stock.symbol %>)</h2>
 
+<h3>Orders</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Buy/Sell</th>
+      <th>Price</th>
+      <th>Quantity</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @stock.orders.order(created_at: :desc).each do |order| %>
+      <tr>
+        <td><%= order.kind %></td>
+        <td><%= order.price %></td>
+        <td><%= order.quantity %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
 <%= link_to 'Edit', edit_stock_path(@stock) %> |
 <%= link_to 'Back', stocks_path %>
