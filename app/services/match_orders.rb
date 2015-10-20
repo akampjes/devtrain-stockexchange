@@ -5,13 +5,13 @@ class MatchOrders
 
     # Basic matching of buy orders against sell orders
     @buy_queue.each do |buy_order|
-      buy_order.update(furfilled: true)
+      buy_order.update(fulfilled: true)
       @sell_queue.each do |sell_order|
-        if !sell_order.furfilled &&
+        if !sell_order.fulfilled &&
             match_price?(buy_order, sell_order) &&
             match_quantity?(buy_order, sell_order)
-          buy_order.update(furfilled: true)
-          sell_order.update(furfilled: true)
+          buy_order.update(fulfilled: true)
+          sell_order.update(fulfilled: true)
         end
       end
     end
