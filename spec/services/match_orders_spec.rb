@@ -83,4 +83,33 @@ RSpec.describe MatchOrders, kind: :service do
       expect(sell2.reload.fulfilled).to be nil
     end
   end
+
+  context "fulfilled orders, aren't counted twice" do
+    it 'picks an unfulfilled sell order' do
+      sell1 = user.orders.sell.create!(stock: stock, quantity: 100, price: 3, fulfilled: true)
+      sell2 = user.orders.sell.create!(stock: stock, quantity: 100, price: 3)
+      buy1 = user.orders.buy.create!(stock: stock, quantity: 100, price: 3)
+
+      MatchOrders.new.call
+
+      expect(sell1.reload.fulfilled).to be true
+      expect(sell2.reload.fulfilled).to be true
+      expect(buy1.reload.fulfilled).to be true
+
+    end
+
+    it 'picks an unfulfilled buy order' do
+      buy1 = user.orders.buy.create!(stock: stock, quantity: 100, price: 2, fulfilled: true)
+      buy2 = user.orders.buy.create!(stock: stock, quantity: 100, price: 2)
+      sell1 =  user.orders.sell.create!(stock: stock, quantity: 100, price: 2)
+
+      MatchOrders.new.call
+
+      expect(buy1.reload.fulfilled).to be true
+      expect(buy2.reload.fulfilled).to be true
+      expect(sell1.reload.fulfilled).to be true
+    end
+  end
+
+
 end

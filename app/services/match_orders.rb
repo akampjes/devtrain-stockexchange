@@ -1,7 +1,7 @@
 class MatchOrders
   def call
-    @sell_queue = Order.sell
-    @buy_queue = Order.buy
+    @sell_queue = Order.sell.unfulfilled
+    @buy_queue = Order.buy.unfulfilled
 
     # Basic matching of buy orders against sell orders
     @buy_queue.each do |buy_order|
