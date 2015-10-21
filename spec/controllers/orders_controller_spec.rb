@@ -20,12 +20,13 @@ require 'rails_helper'
 
 RSpec.describe OrdersController, type: :controller do
   let (:user) { create(:user) }
+  let (:stock) { create(:stock) }
 
   # This should return the minimal set of attributes required to create a valid
   # Order. As you add validations to Order, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    {kind: 'buy', quantity: 1, price: 1, stock_id: create(:stock).id, user: user}
+    {kind: 'buy', quantity: 1, price: 1, stock_id: stock.id, user: user}
   }
 
   let(:invalid_attributes) {

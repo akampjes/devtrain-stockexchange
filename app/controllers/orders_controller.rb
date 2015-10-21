@@ -21,6 +21,8 @@ class OrdersController < ApplicationController
 
     respond_to do |format|
       if @order.save
+        MatchOrdersJob.perform_later(stock: @order.stock)
+
         format.html { redirect_to orders_path, notice: 'Order was successfully created.' }
         format.json { render :show, status: :created, location: @order }
       else
