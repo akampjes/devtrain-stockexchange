@@ -10,7 +10,7 @@ RSpec.describe MatchOrders, kind: :service do
       sell2 = user.orders.sell.create!(stock: stock, quantity: 100, price: 1)
       buy1 = user.orders.buy.create!(stock: stock, quantity: 100, price: 3)
 
-      MatchOrders.new.call
+      MatchOrders.new(stock: stock).call
 
       expect(sell1.reload.fulfilled).to be nil
       expect(sell2.reload.fulfilled).to be true
@@ -24,7 +24,7 @@ RSpec.describe MatchOrders, kind: :service do
       buy2 = user.orders.buy.create!(stock: stock, quantity: 100, price: 2)
       sell1 =  user.orders.sell.create!(stock: stock, quantity: 100, price: 3)
 
-      MatchOrders.new.call
+      MatchOrders.new(stock: stock).call
 
       expect(buy1.reload.fulfilled).to be true
       expect(buy2.reload.fulfilled).to be nil
@@ -38,7 +38,7 @@ RSpec.describe MatchOrders, kind: :service do
       sell2 = user.orders.sell.create!(stock: stock, quantity: 100, price: 3, created_at: Time.now - 1.day)
       buy1 = user.orders.buy.create!(stock: stock, quantity: 100, price: 3)
 
-      MatchOrders.new.call
+      MatchOrders.new(stock: stock).call
 
       expect(sell1.reload.fulfilled).to be nil
       expect(sell2.reload.fulfilled).to be true
@@ -52,7 +52,7 @@ RSpec.describe MatchOrders, kind: :service do
       buy2 = user.orders.buy.create!(stock: stock, quantity: 100, price: 3, created_at: Time.now - 1.day)
       sell1 = user.orders.sell.create!(stock: stock, quantity: 100, price: 3)
 
-      MatchOrders.new.call
+      MatchOrders.new(stock: stock).call
 
       expect(buy1.reload.fulfilled).to be nil
       expect(buy2.reload.fulfilled).to be true
@@ -65,7 +65,7 @@ RSpec.describe MatchOrders, kind: :service do
       buy1 = user.orders.buy.create!(stock: stock, quantity: 100, price: 3)
       buy2 = user.orders.buy.create!(stock: stock, quantity: 100, price: 3)
 
-      MatchOrders.new.call
+      MatchOrders.new(stock: stock).call
 
       expect(buy1.reload.fulfilled).to be nil
       expect(buy2.reload.fulfilled).to be nil
@@ -77,7 +77,7 @@ RSpec.describe MatchOrders, kind: :service do
       sell1 = user.orders.sell.create!(stock: stock, quantity: 100, price: 3)
       sell2 = user.orders.sell.create!(stock: stock, quantity: 100, price: 3)
 
-      MatchOrders.new.call
+      MatchOrders.new(stock: stock).call
 
       expect(sell1.reload.fulfilled).to be nil
       expect(sell2.reload.fulfilled).to be nil
@@ -90,7 +90,7 @@ RSpec.describe MatchOrders, kind: :service do
       sell2 = user.orders.sell.create!(stock: stock, quantity: 100, price: 3)
       buy1 = user.orders.buy.create!(stock: stock, quantity: 100, price: 3)
 
-      MatchOrders.new.call
+      MatchOrders.new(stock: stock).call
 
       expect(sell1.reload.fulfilled).to be true
       expect(sell2.reload.fulfilled).to be true
@@ -103,7 +103,7 @@ RSpec.describe MatchOrders, kind: :service do
       buy2 = user.orders.buy.create!(stock: stock, quantity: 100, price: 2)
       sell1 =  user.orders.sell.create!(stock: stock, quantity: 100, price: 2)
 
-      MatchOrders.new.call
+      MatchOrders.new(stock: stock).call
 
       expect(buy1.reload.fulfilled).to be true
       expect(buy2.reload.fulfilled).to be true

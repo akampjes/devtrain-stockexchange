@@ -1,8 +1,12 @@
 class MatchOrders
+  def initialize(stock:)
+    @stock = stock
+  end
+
   def call
     Order.transaction do
-      @sell_queue = Order.sell.unfulfilled.lock
-      @buy_queue = Order.buy.unfulfilled.lock
+      @sell_queue = Order.sell.unfulfilled.stock(@stock).lock
+      @buy_queue = Order.buy.unfulfilled.stock(@stock).lock
 
       # Basic matching of buy orders against sell orders
       @buy_queue.each do |buy_order|
