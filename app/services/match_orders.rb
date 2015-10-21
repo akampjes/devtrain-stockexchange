@@ -5,23 +5,34 @@ class MatchOrders
 
   def call
     Order.transaction do
-      @sell_queue = Order.sell.unfulfilled.stock(@stock).lock
-      @buy_queue = Order.buy.unfulfilled.stock(@stock).lock
+      current_sell_orders = Order.sell.unfulfilled.stock(@stock).lock
+      current_buy_orders = Order.buy.unfulfilled.stock(@stock).lock
 
       # Basic matching of buy orders against sell orders
-      @buy_queue.each do |buy_order|
-        @sell_queue.each do |sell_order|
-          if !sell_order.fulfilled &&
-              match_price?(buy_order, sell_order) &&
-              match_quantity?(buy_order, sell_order)
-            buy_order.update(fulfilled: true)
-            sell_order.update(fulfilled: true)
-            # Skip to the next buy order
-            break
-          end
+      match_orders(current_sell_orders, current_buy_orders)
+    end
+  end
+
+  def match_orders(sell_orders, buy_orders)
+    buy_orders.each do |buy_order|
+      sell_orders.each do |sell_order|
+        if orders_match?(buy_order, sell_order)
+          buy_order.update(fulfilled: true)
+          sell_order.update(fulfilled: true)
+
+          # Skip to the next buy order
+          break
         end
       end
     end
+  end
+
+  private
+
+  def orders_match?(buy_order, sell_order)
+    !sell_order.fulfilled &&
+      match_price?(buy_order, sell_order) &&
+      match_quantity?(buy_order, sell_order)
   end
 
   def match_price?(buy_order, sell_order)

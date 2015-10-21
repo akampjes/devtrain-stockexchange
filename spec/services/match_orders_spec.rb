@@ -4,6 +4,9 @@ RSpec.describe MatchOrders, kind: :service do
   let(:stock) { create(:stock) }
   let(:user) { create(:user) }
 
+  # There are a lot of ways that I could use context, describe and it
+  # to describe behaviour.
+
   context 'a buy order matches against existing sell orders' do
     it 'gets fulfilled' do
       sell1 = user.orders.sell.create!(stock: stock, quantity: 100, price: 4)
@@ -60,8 +63,8 @@ RSpec.describe MatchOrders, kind: :service do
     end
   end
 
-  context 'there are no sell orders' do
-    it 'does nothing' do
+  context 'empty orders matching' do
+    it 'does nothing when there are no sell orders' do
       buy1 = user.orders.buy.create!(stock: stock, quantity: 100, price: 3)
       buy2 = user.orders.buy.create!(stock: stock, quantity: 100, price: 3)
 
@@ -70,10 +73,8 @@ RSpec.describe MatchOrders, kind: :service do
       expect(buy1.reload.fulfilled).to be nil
       expect(buy2.reload.fulfilled).to be nil
     end
-  end
 
-  context 'there are no buy orders' do
-    it 'does nothing' do
+    it 'does nothing when there are no buy orders' do
       sell1 = user.orders.sell.create!(stock: stock, quantity: 100, price: 3)
       sell2 = user.orders.sell.create!(stock: stock, quantity: 100, price: 3)
 
@@ -110,6 +111,4 @@ RSpec.describe MatchOrders, kind: :service do
       expect(sell1.reload.fulfilled).to be true
     end
   end
-
-
 end
