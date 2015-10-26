@@ -17,8 +17,8 @@ class MatchOrders
     buy_orders.each do |buy_order|
       sell_orders.each do |sell_order|
         if orders_match?(buy_order, sell_order)
-          buy_order.update(fulfilled: true)
-          sell_order.update(fulfilled: true)
+          buy_order.update(fulfilled_at: Time.now)
+          sell_order.update(fulfilled_at: Time.new)
 
           # Skip to the next buy order
           break
@@ -30,7 +30,7 @@ class MatchOrders
   private
 
   def orders_match?(buy_order, sell_order)
-    !sell_order.fulfilled &&
+    sell_order.fulfilled_at.nil? &&
       match_price?(buy_order, sell_order) &&
       match_quantity?(buy_order, sell_order)
   end
