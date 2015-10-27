@@ -4,8 +4,8 @@ class GeneratePortfolio
   end
 
   def call
-    Stock.includes(:orders).where(orders: {user: @user}).map do |stock|
-      orders = stock.orders.fulfilled.where(user: @user)
+    Stock.for_user(@user).map do |stock|
+      orders = stock.orders.fulfilled.for_user(@user)
 
       Position.new(stock: stock,
                    quantity: orders.sum(:quantity),

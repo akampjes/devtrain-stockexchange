@@ -8,6 +8,7 @@ class Order < ActiveRecord::Base
   # Not really sure that it's appropriate to be ordering on this scope
   scope :fulfilled, -> { where.not(fulfilled_at: nil).order(fulfilled_at: :desc) }
   scope :stock, -> (stock) { where(stock: stock) }
+  scope :for_user, -> (user) { where(user: user) }
 
   validates :stock, :user, presence: true
   validates :price, :quantity, numericality: { greater_than: 0 }
