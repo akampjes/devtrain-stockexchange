@@ -1,0 +1,25 @@
+Hi <%= @user.email %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Symbol</th>
+      <th>Quantity</th>
+      <th>Price</th>
+      <th>Total value</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @portfolio.each do |position| %>
+      <tr>
+        <td><%= position.symbol %></td>
+        <td><%= position.quantity %></td>
+        <td><%= position.market_price %></td>
+        <td><%= position.total_value %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
