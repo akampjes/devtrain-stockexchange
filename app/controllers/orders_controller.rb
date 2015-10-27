@@ -21,6 +21,8 @@ class OrdersController < ApplicationController
 
     respond_to do |format|
       if @order.save
+        MatchOrdersJob.perform_later(stock: @order.stock)
+
         format.html { redirect_to orders_path, notice: 'Order was successfully created.' }
         format.json { render :show, status: :created, location: @order }
       else
@@ -41,13 +43,13 @@ class OrdersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_order
-      @order = Order.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_order
+    @order = Order.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def order_params
-      params.require(:order).permit(:stock_id, :kind, :quantity, :price)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def order_params
+    params.require(:order).permit(:stock_id, :kind, :quantity, :price)
+  end
 end
