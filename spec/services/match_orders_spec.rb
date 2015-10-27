@@ -15,9 +15,9 @@ RSpec.describe MatchOrders, kind: :service do
 
       MatchOrders.new(stock: stock).call
 
-      expect(sell1.reload.fulfilled_at).to be nil
-      expect(sell2.reload.fulfilled_at).to_not be nil
-      expect(buy1.reload.fulfilled_at).to_not be nil
+      expect(sell1.reload).to_not be_fulfilled_at
+      expect(sell2.reload).to be_fulfilled_at
+      expect(buy1.reload).to be_fulfilled_at
     end
   end
 
@@ -29,9 +29,9 @@ RSpec.describe MatchOrders, kind: :service do
 
       MatchOrders.new(stock: stock).call
 
-      expect(buy1.reload.fulfilled_at).to_not be nil
-      expect(buy2.reload.fulfilled_at).to be nil
-      expect(sell1.reload.fulfilled_at).to_not be nil
+      expect(buy1.reload).to be_fulfilled_at
+      expect(buy2.reload).to_not be_fulfilled_at
+      expect(sell1.reload).to be_fulfilled_at
     end
   end
 
@@ -43,9 +43,9 @@ RSpec.describe MatchOrders, kind: :service do
 
       MatchOrders.new(stock: stock).call
 
-      expect(sell1.reload.fulfilled_at).to be nil
-      expect(sell2.reload.fulfilled_at).to_not be nil
-      expect(buy1.reload.fulfilled_at).to_not be nil
+      expect(sell1.reload).to_not be_fulfilled_at
+      expect(sell2.reload).to be_fulfilled_at
+      expect(buy1.reload).to be_fulfilled_at
     end
   end
 
@@ -57,9 +57,9 @@ RSpec.describe MatchOrders, kind: :service do
 
       MatchOrders.new(stock: stock).call
 
-      expect(buy1.reload.fulfilled_at).to be nil
-      expect(buy2.reload.fulfilled_at).to_not be nil
-      expect(sell1.reload.fulfilled_at).to_not be nil
+      expect(buy1.reload).to_not be_fulfilled_at
+      expect(buy2.reload).to be_fulfilled_at
+      expect(sell1.reload).to be_fulfilled_at
     end
   end
 
@@ -70,8 +70,8 @@ RSpec.describe MatchOrders, kind: :service do
 
       MatchOrders.new(stock: stock).call
 
-      expect(buy1.reload.fulfilled_at).to be nil
-      expect(buy2.reload.fulfilled_at).to be nil
+      expect(buy1.reload).to_not be_fulfilled_at
+      expect(buy2.reload).to_not be_fulfilled_at
     end
 
     it 'does nothing when there are no buy orders' do
@@ -80,8 +80,8 @@ RSpec.describe MatchOrders, kind: :service do
 
       MatchOrders.new(stock: stock).call
 
-      expect(sell1.reload.fulfilled_at).to be nil
-      expect(sell2.reload.fulfilled_at).to be nil
+      expect(sell1.reload).to_not be_fulfilled_at
+      expect(sell2.reload).to_not be_fulfilled_at
     end
   end
 
@@ -93,9 +93,9 @@ RSpec.describe MatchOrders, kind: :service do
 
       MatchOrders.new(stock: stock).call
 
-      expect(sell1.reload.fulfilled_at).to_not be nil
-      expect(sell2.reload.fulfilled_at).to_not be nil
-      expect(buy1.reload.fulfilled_at).to_not be nil
+      expect(sell1.reload).to be_fulfilled_at
+      expect(sell2.reload).to be_fulfilled_at
+      expect(buy1.reload).to be_fulfilled_at
 
     end
 
@@ -106,9 +106,9 @@ RSpec.describe MatchOrders, kind: :service do
 
       MatchOrders.new(stock: stock).call
 
-      expect(buy1.reload.fulfilled_at).to_not be nil
-      expect(buy2.reload.fulfilled_at).to_not be nil
-      expect(sell1.reload.fulfilled_at).to_not be nil
+      expect(buy1.reload).to be_fulfilled_at
+      expect(buy2.reload).to be_fulfilled_at
+      expect(sell1.reload).to be_fulfilled_at
     end
   end
 end
