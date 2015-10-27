@@ -7,6 +7,7 @@ Hi <%= @user.email %>
       <th>Quantity</th>
       <th>Price</th>
       <th>Total value</th>
+      <th>Change</th>
     </tr>
   </thead>
 
@@ -17,6 +18,7 @@ Hi <%= @user.email %>
         <td><%= position.quantity %></td>
         <td><%= position.market_price %></td>
         <td><%= position.total_value %></td>
+        <td><%= position.percentage_change %>%</td>
       </tr>
     <% end %>
   </tbody>

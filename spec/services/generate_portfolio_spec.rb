@@ -8,10 +8,14 @@ RSpec.describe GeneratePortfolio, kind: :service do
   it 'sums up some buy orders' do
     user.orders.buy.create!(stock: stock, quantity: 100, price: 4, fulfilled_at: Time.now)
     user.orders.buy.create!(stock: stock, quantity: 100, price: 3, fulfilled_at: Time.now)
-    # market price is 3 (most recent traded)
-    # 100 * 3 + 100 * 3 == 900
 
+    # market price is 3 (most recent traded)
+    # 100 * 3 + 100 * 3 == 600
     expect(subject.call.first.total_value).to eq 600
+
+    # cost was
+    # 100 * 4 + 100 * 3 == 700
+    expect(subject.call.first.cost).to eq 700
   end
 
   it 'deals with different users' do

@@ -9,7 +9,17 @@ class GeneratePortfolio
 
       Position.new(stock: stock,
                    quantity: orders.sum(:quantity),
-                   market_price: stock.market_price)
+                   market_price: stock.market_price,
+                   cost: cost(orders)
+                  )
+    end
+  end
+
+  private
+
+  def cost(orders)
+    orders.reduce(0) do |sum, order|
+      sum + order.price * order.quantity
     end
   end
 end
