@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-# this is where i include factorygirl
 RSpec.describe Order, kind: :model do
   it 'is valid' do
     order = build(:buy_order)
@@ -24,6 +23,25 @@ RSpec.describe Order, kind: :model do
       order.stock = nil
 
       expect(order).to be_invalid
+    end
+  end
+
+  describe '#fulfilled?' do
+    # These are gross, I want to use one-liner syntax
+    subject { build(:buy_order) }
+
+    context 'when fulfilled_at is set' do
+      it 'it is fulfilled' do
+        subject.fulfilled_at = Time.now
+
+        expect(subject).to be_fulfilled
+      end
+    end
+
+    context 'when fulfilled_at is not set' do
+      it 'is not fulfilled' do
+        expect(subject).to_not be_fulfilled
+      end
     end
   end
 end

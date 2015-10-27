@@ -13,4 +13,8 @@ class Order < ActiveRecord::Base
   validates :stock, :user, presence: true
   validates :price, :quantity, numericality: { greater_than: 0 }
   validates :kind, inclusion: { in: %w(buy sell) }
+
+  def fulfilled?
+    fulfilled_at.present?
+  end
 end
