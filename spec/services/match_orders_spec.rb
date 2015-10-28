@@ -111,4 +111,48 @@ RSpec.describe MatchOrders, kind: :service do
       expect(sell1.reload).to be_fulfilled
     end
   end
+
+  context 'partial order matching' do
+    it 'partially matches a buy order with an existing sell order' do
+      sell1 = user.orders.sell.create!(stock: stock, quantity: 100, price: 3)
+      buy1 = user.orders.buy.create!(stock: stock, quantity: 200, price: 3)
+
+      MatchOrders.new(stock: stock).call
+      sell1.reload
+      buy1.reload
+
+      expect(sell1).to be_fulfilled
+      expect(buy1).to_not be_fulfilled
+
+      expect(sell1.fills.length).to eq 1
+      fill = sell1.fills.first
+      expect(fill.value).to eq 3
+      expect(fill.quantity).to eq 100
+      expect(fill.order).to eq something
+      expect(fill.matched_order).to eq something_else
+      expect(fill.kind).to eq 'somekind'
+    end
+
+    it 'partially matches a sell order with an existing buy order' do
+      # This should just test the opposite values of the above
+    end
+
+    it 'it matches two fully matching orders' do
+      sell1 = user.orders.sell.create!(stock: stock, quantity: 100, price: 3)
+      buy1 = user.orders.buy.create!(stock: stock, quantity: 100, price: 3)
+
+      MatchOrders.new(stock: stock).call
+      sell1.reload
+      buy1.reload
+
+      expect(sell1).to be_fulfilled
+      expect(buy1).to be_fulfilled
+
+      expect(sell1.fills.length).to eq 2
+      expect(sell1.fills).to include(*buy1.fills)
+    end
+
+    it 'is fulfilled after multiple partial matches' do
+    end
+  end
 end

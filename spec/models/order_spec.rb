@@ -44,4 +44,15 @@ RSpec.describe Order, kind: :model do
       end
     end
   end
+
+  describe '#fill' do
+    # test some shit here
+    # make sure that the selectors are working right
+    #
+    it 'is a buy kind of order' do
+    end
+
+    it 'is a sell kind of order' do
+    end
+  end
 end
