@@ -1,16 +1,14 @@
 FactoryGirl.define do
-  factory :buy_order, class: Order do
+  factory :buy_order, class: BuyOrder do
     stock
     user
-    kind 'buy'
     price 1
     quantity 1
   end
 
-  factory :sell_order, class: Order do
+  factory :sell_order, class: SellOrder do
     stock
     user
-    kind 'sell'
     price 1
     quantity 1
   end

@@ -5,8 +5,8 @@ class MatchOrders
 
   def call
     Order.transaction do
-      current_sell_orders = Order.sell.unfulfilled.stock(@stock).lock
-      current_buy_orders = Order.buy.unfulfilled.stock(@stock).lock
+      current_sell_orders = SellOrder.unfulfilled.book_ordered.stock(@stock).lock
+      current_buy_orders = BuyOrder.unfulfilled.book_ordered.stock(@stock).lock
 
       # Basic matching of buy orders against sell orders
       match_orders(current_sell_orders, current_buy_orders)

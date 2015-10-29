@@ -17,10 +17,10 @@
     <% @orders.each do |order| %>
       <tr>
         <td><%= link_to order.stock.symbol, order.stock %></td>
-        <td><%= order.kind %></td>
+        <td><%= order.type %></td>
         <td><%= order.quantity %></td>
         <td><%= order.price %></td>
-        <td><%= link_to 'Destroy', order, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Destroy', order_path(order), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

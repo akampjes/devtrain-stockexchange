@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe Order, kind: :model do
+RSpec.shared_examples 'an order' do |order_type|
   it 'is valid' do
-    order = build(:buy_order)
+    order = build(order_type)
 
     expect(order).to be_valid
   end
@@ -11,15 +11,8 @@ RSpec.describe Order, kind: :model do
   end
 
   describe 'invalid orders' do
-    it 'requires a kind' do
-      order = build(:buy_order)
-      order.kind = nil
-
-      expect(order).to be_invalid
-    end
-
     it 'requires a stock' do
-      order = build(:buy_order)
+      order = build(order_type)
       order.stock = nil
 
       expect(order).to be_invalid
@@ -28,7 +21,7 @@ RSpec.describe Order, kind: :model do
 
   describe '#fulfilled?' do
     # These are gross, I want to use one-liner syntax
-    subject { build(:buy_order) }
+    subject { build(order_type) }
 
     context 'when fulfilled_at is set' do
       it 'it is fulfilled' do
