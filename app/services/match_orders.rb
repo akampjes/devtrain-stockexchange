@@ -17,36 +17,30 @@ class MatchOrders
     buy_orders.each do |buy_order|
       sell_orders.each do |sell_order|
         if orders_match?(buy_order, sell_order)
-          #buy_order.update(fulfilled_at: Time.now)
-          #sell_order.update(fulfilled_at: Time.new)
+          buy_quantity_remaining = buy_order.quantity_remaining
+          sell_quantity_remaining = sell_order.quantity_remaining
 
-          # When doing partial order matching, at least one of the orders will
-          # end up being fulfilled.
-          #
-          #
-          # Which `value` are we going to take?
-          #
-          if buy_order.quantity == sell_order.quantity
+          if buy_quantity_remaining == sell_quantity_remaining
             buy_order.update(fulfilled_at: Time.now)
             sell_order.update(fulfilled_at: Time.now)
             Fill.create!(buy_order: buy_order,
                          sell_order: sell_order,
                          price: sell_order.price,
                          quantity: sell_order.quantity)
-          elsif buy_order.quantity < sell_order.quantity
+          elsif buy_quantity_remaining < sell_quantity_remaining
             # buy order becomes fulfilled
             buy_order.update(fulfilled_at: Time.now)
             Fill.create!(buy_order: buy_order,
                          sell_order: sell_order,
                          price: sell_order.price,
-                         quantity: buy_order.quantity)
-          elsif buy_order.quantity > sell_order.quantity
+                         quantity: buy_quantity_remaining)
+          elsif buy_quantity_remaining > sell_quantity_remaining
             # sell order becomes fulfilled
             sell_order.update(fulfilled_at: Time.now)
             Fill.create!(buy_order: buy_order,
                          sell_order: sell_order,
                          price: sell_order.price,
-                         quantity: sell_order.quantity)
+                         quantity: sell_quantity_remaining)
           else
             # should never be here
             puts "SHOULDNT BE HERE"

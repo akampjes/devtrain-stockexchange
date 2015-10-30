@@ -48,4 +48,33 @@ RSpec.shared_examples 'an order' do |order_type|
     it 'is a sell kind of order' do
     end
   end
+
+  context 'order quantities being calculated from filled orders' do
+    let(:user) { create(:user) }
+    let(:stock) { create(:stock) }
+    let(:buy_order) { create(:buy_order, stock: stock, user: user) }
+    let(:sell_order) { create(:sell_order, stock: stock, user: user) }
+
+    before do
+      Fill.create!(buy_order: buy_order,
+                   sell_order: sell_order,
+                   price: 1,
+                   quantity: 75)
+    end
+
+    describe '#quantity_filled' do
+      it 'reports the quantity of fills on an order' do
+        expect(buy_order.quantity_filled).to eq 75
+        expect(sell_order.quantity_filled).to eq 75
+      end
+    end
+
+    describe '#quantity_remaining' do
+      it 'reports the quantity remaining after filling some part of an order' do
+        expect(buy_order.quantity_remaining).to eq 25
+        expect(sell_order.quantity_remaining).to eq 25
+
+      end
+    end
+  end
 end

@@ -15,4 +15,12 @@ class Order < ActiveRecord::Base
   def fulfilled?
     fulfilled_at.present?
   end
+
+  def quantity_filled
+    fills.sum(:quantity)
+  end
+
+  def quantity_remaining
+    quantity - quantity_filled
+  end
 end
