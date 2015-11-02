@@ -3,13 +3,13 @@ class Position
 
   def initialize(stock:, quantity:, market_price:, cost:)
     @stock = stock
-    @total_quantity = quantity
-    @market_price = market_price
+    @total_quantity = quantity.to_i
+    @market_price = market_price.to_i
     @cost = cost
   end
 
   def total_value
-    total_quantity.to_i * market_price.to_i
+    total_quantity * market_price
   end
 
   def percentage_change
