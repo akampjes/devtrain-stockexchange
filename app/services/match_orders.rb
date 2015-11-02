@@ -61,9 +61,11 @@ class MatchOrders
   def fulfill_order(buy_order, sell_order)
     fulfill_quantity = fulfill_quantity!(buy_order, sell_order)
 
-    Fill.create!(buy_order: buy_order,
+    fill = Fill.create!(buy_order: buy_order,
                  sell_order: sell_order,
                  price: sell_order.price,
                  quantity: fulfill_quantity)
+
+    TransferMoneyForFill.new(fill: fill).call
   end
 end

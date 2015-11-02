@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :stock do
+  factory :stock, class: Stock do
     name 'teststock'
     symbol 'stocksym'
   end
