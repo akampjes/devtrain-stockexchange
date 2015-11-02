@@ -38,7 +38,7 @@ RSpec.describe MatchOrders, kind: :service do
   context 'a buy order matches against the most oldest matching sell order' do
     it 'gets fulfilled' do
       sell1 = user.sell_orders.create!(stock: stock, quantity: 100, price: 3)
-      sell2 = user.sell_orders.create!(stock: stock, quantity: 100, price: 3, created_at: Time.now - 1.day)
+      sell2 = user.sell_orders.create!(stock: stock, quantity: 100, price: 3, created_at: 1.day.ago)
       buy1 = user.buy_orders.create!(stock: stock, quantity: 100, price: 3)
 
       MatchOrders.new(stock: stock).call
@@ -52,7 +52,7 @@ RSpec.describe MatchOrders, kind: :service do
   context 'a sell order matches against the most oldest matching buy order' do
     it 'gets fulfilled' do
       buy1 = user.buy_orders.create!(stock: stock, quantity: 100, price: 3)
-      buy2 = user.buy_orders.create!(stock: stock, quantity: 100, price: 3, created_at: Time.now - 1.day)
+      buy2 = user.buy_orders.create!(stock: stock, quantity: 100, price: 3, created_at: 1.day.ago)
       sell1 = user.sell_orders.create!(stock: stock, quantity: 100, price: 3)
 
       MatchOrders.new(stock: stock).call
