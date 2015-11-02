@@ -15,9 +15,9 @@ RSpec.describe MatchOrders, kind: :service do
 
       MatchOrders.new(stock: stock).call
 
-      expect(sell1.reload.fulfilled).to be nil
-      expect(sell2.reload.fulfilled).to be true
-      expect(buy1.reload.fulfilled).to be true
+      expect(sell1.reload).to_not be_fulfilled
+      expect(sell2.reload).to be_fulfilled
+      expect(buy1.reload).to be_fulfilled
     end
   end
 
@@ -29,9 +29,9 @@ RSpec.describe MatchOrders, kind: :service do
 
       MatchOrders.new(stock: stock).call
 
-      expect(buy1.reload.fulfilled).to be true
-      expect(buy2.reload.fulfilled).to be nil
-      expect(sell1.reload.fulfilled).to be true
+      expect(buy1.reload).to be_fulfilled
+      expect(buy2.reload).to_not be_fulfilled
+      expect(sell1.reload).to be_fulfilled
     end
   end
 
@@ -43,9 +43,9 @@ RSpec.describe MatchOrders, kind: :service do
 
       MatchOrders.new(stock: stock).call
 
-      expect(sell1.reload.fulfilled).to be nil
-      expect(sell2.reload.fulfilled).to be true
-      expect(buy1.reload.fulfilled).to be true
+      expect(sell1.reload).to_not be_fulfilled
+      expect(sell2.reload).to be_fulfilled
+      expect(buy1.reload).to be_fulfilled
     end
   end
 
@@ -57,9 +57,9 @@ RSpec.describe MatchOrders, kind: :service do
 
       MatchOrders.new(stock: stock).call
 
-      expect(buy1.reload.fulfilled).to be nil
-      expect(buy2.reload.fulfilled).to be true
-      expect(sell1.reload.fulfilled).to be true
+      expect(buy1.reload).to_not be_fulfilled
+      expect(buy2.reload).to be_fulfilled
+      expect(sell1.reload).to be_fulfilled
     end
   end
 
@@ -70,8 +70,8 @@ RSpec.describe MatchOrders, kind: :service do
 
       MatchOrders.new(stock: stock).call
 
-      expect(buy1.reload.fulfilled).to be nil
-      expect(buy2.reload.fulfilled).to be nil
+      expect(buy1.reload).to_not be_fulfilled
+      expect(buy2.reload).to_not be_fulfilled
     end
 
     it 'does nothing when there are no buy orders' do
@@ -80,35 +80,35 @@ RSpec.describe MatchOrders, kind: :service do
 
       MatchOrders.new(stock: stock).call
 
-      expect(sell1.reload.fulfilled).to be nil
-      expect(sell2.reload.fulfilled).to be nil
+      expect(sell1.reload).to_not be_fulfilled
+      expect(sell2.reload).to_not be_fulfilled
     end
   end
 
   context "fulfilled orders, aren't counted twice" do
     it 'picks an unfulfilled sell order' do
-      sell1 = user.orders.sell.create!(stock: stock, quantity: 100, price: 3, fulfilled: true)
+      sell1 = user.orders.sell.create!(stock: stock, quantity: 100, price: 3, fulfilled_at: Time.now)
       sell2 = user.orders.sell.create!(stock: stock, quantity: 100, price: 3)
       buy1 = user.orders.buy.create!(stock: stock, quantity: 100, price: 3)
 
       MatchOrders.new(stock: stock).call
 
-      expect(sell1.reload.fulfilled).to be true
-      expect(sell2.reload.fulfilled).to be true
-      expect(buy1.reload.fulfilled).to be true
+      expect(sell1.reload).to be_fulfilled
+      expect(sell2.reload).to be_fulfilled
+      expect(buy1.reload).to be_fulfilled
 
     end
 
     it 'picks an unfulfilled buy order' do
-      buy1 = user.orders.buy.create!(stock: stock, quantity: 100, price: 2, fulfilled: true)
+      buy1 = user.orders.buy.create!(stock: stock, quantity: 100, price: 2, fulfilled_at: Time.now)
       buy2 = user.orders.buy.create!(stock: stock, quantity: 100, price: 2)
       sell1 =  user.orders.sell.create!(stock: stock, quantity: 100, price: 2)
 
       MatchOrders.new(stock: stock).call
 
-      expect(buy1.reload.fulfilled).to be true
-      expect(buy2.reload.fulfilled).to be true
-      expect(sell1.reload.fulfilled).to be true
+      expect(buy1.reload).to be_fulfilled
+      expect(buy2.reload).to be_fulfilled
+      expect(sell1.reload).to be_fulfilled
     end
   end
 end

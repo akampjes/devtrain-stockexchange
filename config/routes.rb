@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :orders, only: [:index, :new, :create, :destroy]
   devise_for :users
   get 'home/index'
+  get 'portfolio/index'
 
   resources :stocks
 
