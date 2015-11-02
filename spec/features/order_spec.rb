@@ -11,7 +11,7 @@ RSpec.feature "Orders", type: :feature do
     click_on 'New Order'
 
     expect(current_path).to eq new_order_path
-    select 'buy', from: 'Kind'
+    select 'BuyOrder', from: 'Type'
     fill_in 'Price', with: 1
     fill_in 'Quantity', with: 1
     stock = Stock.first

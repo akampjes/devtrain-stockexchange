@@ -26,7 +26,7 @@ RSpec.describe OrdersController, type: :controller do
   # Order. As you add validations to Order, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    {kind: 'buy', quantity: 1, price: 1, stock_id: stock.id, user: user}
+    {type: 'BuyOrder', quantity: 1, price: 1, stock_id: stock.id, user: user}
   }
 
   let(:invalid_attributes) {

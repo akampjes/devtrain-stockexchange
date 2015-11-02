@@ -15,7 +15,7 @@
     <%= f.association :stock %>
   </div>
   <div class="field">
-    <%= f.input :kind, collection: [:buy, :sell] %>
+    <%= f.input :type, collection: ['BuyOrder', 'SellOrder'] %>
   </div>
   <div class="field">
     <%= f.input :quantity %>
