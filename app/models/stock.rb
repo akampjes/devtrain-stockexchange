@@ -8,6 +8,6 @@ class Stock < ActiveRecord::Base
   validates :name, :symbol, presence: true
 
   def market_price
-    orders.fulfilled.first.try(:price)
+    orders.fulfilled.recent_order_first.first.try(:price)
   end
 end
