@@ -7,4 +7,10 @@ class User < ActiveRecord::Base
   has_many :orders
   has_many :buy_orders
   has_many :sell_orders
+
+  def money_available
+    buy_orders.unfulfilled.reduce(money) do |sum, order|
+      sum - order.max_order_value
+    end
+  end
 end
