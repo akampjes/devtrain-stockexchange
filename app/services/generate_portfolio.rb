@@ -27,8 +27,6 @@ class GeneratePortfolio
   end
 
   def cost(orders)
-    orders.reduce(0) do |sum, order|
-      sum + order.price * order.quantity
-    end
+    orders.map { |order| order.price * order.quantity }.sum
   end
 end

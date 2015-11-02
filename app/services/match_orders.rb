@@ -41,18 +41,18 @@ class MatchOrders
     sell_quantity_remaining = sell_order.quantity_remaining
 
     if buy_quantity_remaining == sell_quantity_remaining
-      buy_order.update(fulfilled_at: Time.now)
-      sell_order.update(fulfilled_at: Time.now)
+      buy_order.update!(fulfilled_at: Time.now)
+      sell_order.update!(fulfilled_at: Time.now)
 
       sell_quantity_remaining
     elsif buy_quantity_remaining > sell_quantity_remaining
       # Sell order must become fulfilled
-      sell_order.update(fulfilled_at: Time.now)
+      sell_order.update!(fulfilled_at: Time.now)
 
       sell_quantity_remaining
     elsif buy_quantity_remaining < sell_quantity_remaining
       # Buy order must become fulfilled
-      buy_order.update(fulfilled_at: Time.now)
+      buy_order.update!(fulfilled_at: Time.now)
 
       buy_quantity_remaining
     end
