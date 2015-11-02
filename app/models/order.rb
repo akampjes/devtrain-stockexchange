@@ -3,8 +3,8 @@ class Order < ActiveRecord::Base
   belongs_to :user
 
   scope :unfulfilled, -> { where(fulfilled_at: nil) }
-  # Not really sure that it's appropriate to be ordering on this scope
-  scope :fulfilled, -> { where.not(fulfilled_at: nil).order(fulfilled_at: :desc) }
+  scope :fulfilled, -> { where.not(fulfilled_at: nil) }
+  scope :recent_order_first, -> { order(fulfilled_at: :desc) }
   scope :stock, -> (stock) { where(stock: stock) }
   scope :for_user, -> (user) { where(user: user) }
 
