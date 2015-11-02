@@ -9,7 +9,7 @@ class Position
   end
 
   def total_value
-    (total_quantity || 0) * (market_price || 0)
+    total_quantity.to_i * market_price.to_i
   end
 
   def percentage_change
