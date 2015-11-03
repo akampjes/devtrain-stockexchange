@@ -10,4 +10,10 @@ RSpec.describe User, type: :model do
       expect(user.money_available).to eq (user.money - buy_order.max_order_value)
     end
   end
+
+  it 'sets a default value for money when initialized' do
+    user =  User.new
+
+    expect(user.money).to be >= 0
+  end
 end
