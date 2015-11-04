@@ -6,7 +6,7 @@ class BuyOrder < Order
   validate :user_has_enough_money
 
   def user_has_enough_money
-    if (user.money_available - max_order_value) < 0
+    if user.money_available - max_order_value < 0
       errors.add(:quantity, 'Not enough money available to buy this many shares')
     end
   end

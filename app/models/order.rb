@@ -20,7 +20,7 @@ class Order < ActiveRecord::Base
     fills.sum(:quantity)
   end
 
-  def quantity_remaining
+  def quantity_unfilled
     quantity - quantity_filled
   end
 end

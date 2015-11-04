@@ -16,8 +16,7 @@ class OrdersController < ApplicationController
   # POST /orders
   # POST /orders.json
   def create
-    @order = Order.new(order_params)
-    @order.user = current_user
+    @order = current_user.orders.new(order_params)
 
     respond_to do |format|
       if @order.save

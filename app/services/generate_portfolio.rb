@@ -9,24 +9,24 @@ class GeneratePortfolio
       sell_orders = stock.sell_orders.fulfilled.for_user(@user)
 
       Position.new(stock: stock,
-                   quantity: sum_orders(buy_orders, sell_orders),
+                   quantity: sum_quantity(buy_orders, sell_orders),
                    market_price: stock.market_price,
-                   cost: sum_cost(buy_orders, sell_orders)
+                   cost: cost(buy_orders, sell_orders)
                   )
     end
   end
 
   private
 
-  def sum_orders(buy_orders, sell_orders)
+  def sum_quantity(buy_orders, sell_orders)
     buy_orders.sum(:quantity) - sell_orders.sum(:quantity)
   end
 
-  def sum_cost(buy_orders, sell_orders)
-    cost(buy_orders) - cost(sell_orders)
+  def cost(buy_orders, sell_orders)
+    sum_cost(buy_orders) - sum_cost(sell_orders)
   end
 
-  def cost(orders)
+  def sum_cost(orders)
     orders.map { |order| order.price * order.quantity }.sum
   end
 end
