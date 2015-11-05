@@ -206,21 +206,7 @@ RSpec.describe MatchOrders, kind: :service do
     end
   end
 
-  # Mock that we're going to call transfer money
-  it 'transfers money' do
-    sell1 = user.sell_orders.create!(stock: stock, quantity: 100, price: 1)
-    buy1 = user.buy_orders.create!(stock: stock, quantity: 100, price: 3)
-
-    fill = double('Fill')
-    allow(Fill).to receive(:create!).and_return(fill)
-
-    money_transfer_service = double('TransferMoneyForFill')
-    money_transfer_service_instance = instance_double('TransferMoneyForFill')
-
-    allow(money_transfer_service).to receive(:new).with(fill: fill).and_return(money_transfer_service_instance)
-    expect(money_transfer_service_instance).to receive(:call)
-
-    # use a mock here to check expect that we're gonna call TransferMoneyForFill
-    MatchOrders.new(stock: stock, money_transfer_service: money_transfer_service).call
-  end
+  # Don't need test that money is transfered, just that the side some orders are
+  # fulfilled (the obvious outcome from FulfillOrder), see above.
+  # Then in FulfillOrder we can do the money transfer :)
 end
