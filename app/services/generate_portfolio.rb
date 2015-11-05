@@ -8,11 +8,12 @@ class GeneratePortfolio
       buy_orders = stock.buy_orders.fulfilled.for_user(@user)
       sell_orders = stock.sell_orders.fulfilled.for_user(@user)
 
-      Position.new(stock: stock,
-                   quantity: sum_quantity(buy_orders, sell_orders),
-                   market_price: stock.market_price,
-                   cost: cost(buy_orders, sell_orders)
-                  )
+      Position.new(
+        stock: stock,
+        quantity: sum_quantity(buy_orders, sell_orders),
+        market_price: stock.market_price,
+        cost: cost(buy_orders, sell_orders)
+      )
     end
   end
 

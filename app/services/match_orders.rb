@@ -1,6 +1,7 @@
 class MatchOrders
-  def initialize(stock:)
+  def initialize(stock:, money_transfer_service: TransferMoneyForFill)
     @stock = stock
+    @money_transfer_service = money_transfer_service
   end
 
   def call
@@ -32,6 +33,7 @@ class MatchOrders
     buy_order.price >= sell_order.price
   end
 
+  # move this out into a new service
   def fulfill_order(buy_order, sell_order)
     fill_quantity = [buy_order.quantity_unfilled, sell_order.quantity_unfilled].min
 
@@ -49,6 +51,6 @@ class MatchOrders
       sell_order.update!(fulfilled_at: fill.created_at)
     end
 
-    TransferMoneyForFill.new(fill: fill).call
+    @money_transfer_service.new(fill: fill).call
   end
 end

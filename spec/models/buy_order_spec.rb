@@ -12,13 +12,4 @@ RSpec.describe BuyOrder, type: :model do
       expect(subject.max_order_value).to eq (subject.price * subject.quantity)
     end
   end
-
-  context 'user cant afford to buy that many shares' do
-    let(:user) { create(:user, money: 1) }
-    subject { build(:buy_order, user: user) }
-
-    it 'is invalid' do
-      expect(subject).to be_invalid
-    end
-  end
 end
