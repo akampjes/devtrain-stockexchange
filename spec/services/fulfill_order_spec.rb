@@ -42,9 +42,21 @@ RSpec.describe FulfillOrder, kind: :service do
     expect(sell_order).to be_fulfilled
   end
 
-  # Test that money is transfered (the obvious side-effect of TransferMoneyForFill
-  it 'transfers some money after fulfilling an order' do
-    expect { subject.call }.to change {buy_order.user.money}
-    expect { subject.call }.to change {sell_order.user.money}
+  context 'money is transfered' do
+    it 'transfers money from the buyer after fulfilling an order' do
+      expect { subject.call }.to change {buy_order.user.money}
+    end
+
+    it 'transfers money to the seller after fulfilling an order' do
+      expect { subject.call }.to change {sell_order.user.money}
+    end
+
+    it 'calls TransferMoneyForFill' do
+      transfer_money_for_fill_instance = instance_double('TransferMoneyForFill')
+      allow(TransferMoneyForFill).to receive(:new).and_return(transfer_money_for_fill_instance)
+      expect(transfer_money_for_fill_instance).to receive(:call)
+
+      subject.call
+    end
   end
 end
