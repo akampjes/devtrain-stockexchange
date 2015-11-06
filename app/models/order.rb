@@ -5,6 +5,7 @@ class Order < ActiveRecord::Base
   scope :unfulfilled, -> { where(fulfilled_at: nil) }
   scope :fulfilled, -> { where.not(fulfilled_at: nil) }
   scope :recent_order_first, -> { order(fulfilled_at: :desc) }
+  scope :by_recently_created, -> { order(created_at: :desc) }
   scope :stock, -> (stock) { where(stock: stock) }
   scope :for_user, -> (user) { where(user: user) }
 
@@ -20,7 +21,7 @@ class Order < ActiveRecord::Base
     fills.sum(:quantity)
   end
 
-  def quantity_remaining
+  def quantity_unfilled
     quantity - quantity_filled
   end
 end

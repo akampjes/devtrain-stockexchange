@@ -7,9 +7,6 @@ RSpec.shared_examples 'an order' do |order_type|
     expect(order).to be_valid
   end
 
-  context 'there are buy and sell orders' do
-  end
-
   describe 'invalid orders' do
     it 'requires a stock' do
       order = build(order_type)
@@ -38,17 +35,6 @@ RSpec.shared_examples 'an order' do |order_type|
     end
   end
 
-  describe '#fill' do
-    # test some shit here
-    # make sure that the selectors are working right
-    #
-    it 'is a buy kind of order' do
-    end
-
-    it 'is a sell kind of order' do
-    end
-  end
-
   context 'order quantities being calculated from filled orders' do
     let(:user) { create(:user) }
     let(:stock) { create(:stock) }
@@ -69,11 +55,10 @@ RSpec.shared_examples 'an order' do |order_type|
       end
     end
 
-    describe '#quantity_remaining' do
+    describe '#quantity_unfilled' do
       it 'reports the quantity remaining after filling some part of an order' do
-        expect(buy_order.quantity_remaining).to eq 25
-        expect(sell_order.quantity_remaining).to eq 25
-
+        expect(buy_order.quantity_unfilled).to eq 25
+        expect(sell_order.quantity_unfilled).to eq 25
       end
     end
   end

@@ -52,7 +52,8 @@ RSpec.describe OrdersController, type: :controller do
     it "order orders in decreasing date order" do
       order = Order.create! valid_attributes
       order2 = Order.create! valid_attributes
-      order2.created_at = order2.created_at - 1.month
+      order2.update!(created_at: 1.month.ago)
+
       get :index, {}, valid_session
       expect(assigns(:orders).first).to eq order
       expect(assigns(:orders).last).to eq order2

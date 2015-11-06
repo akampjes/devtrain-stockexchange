@@ -140,7 +140,7 @@ RSpec.describe MatchOrders, kind: :service do
       expect(fill.price).to eq 3
       expect(fill.quantity).to eq 100
       expect(fill.buy_order).to eq buy1
-      expect(fill.sell_order).to eq sell1 
+      expect(fill.sell_order).to eq sell1
     end
 
     it 'partially matches a sell order with an existing buy order' do
@@ -159,7 +159,7 @@ RSpec.describe MatchOrders, kind: :service do
       expect(fill.price).to eq 3
       expect(fill.quantity).to eq 100
       expect(fill.buy_order).to eq buy1
-      expect(fill.sell_order).to eq sell1 
+      expect(fill.sell_order).to eq sell1
     end
 
     context 'matching against already partially fulfilled orders' do
@@ -205,4 +205,8 @@ RSpec.describe MatchOrders, kind: :service do
       end
     end
   end
+
+  # Don't need test that money is transfered, just that the side some orders are
+  # fulfilled (the obvious outcome from FulfillOrder), see above.
+  # Then in FulfillOrder we can do the money transfer :)
 end

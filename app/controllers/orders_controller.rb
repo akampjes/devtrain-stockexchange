@@ -5,7 +5,7 @@ class OrdersController < ApplicationController
   # GET /orders
   # GET /orders.json
   def index
-    @orders = Order.all.order(created_at: :asc)
+    @orders = Order.all.by_recently_created
   end
 
   # GET /orders/new
@@ -16,12 +16,10 @@ class OrdersController < ApplicationController
   # POST /orders
   # POST /orders.json
   def create
-    @order = Order.new(order_params)
-    @order.user = current_user
+    @order = CreateOrder.new(order: current_user.orders.new(order_params)).call
 
     respond_to do |format|
-      if @order.save
-        MatchOrdersJob.perform_later(stock: @order.stock)
+      if @order.errors.empty?
 
         format.html { redirect_to orders_path, notice: 'Order was successfully created.' }
         format.json { render :show, status: :created, location: @order }
