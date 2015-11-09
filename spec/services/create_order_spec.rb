@@ -17,7 +17,9 @@ RSpec.describe CreateOrder, kind: :service do
     end
 
     it 'queues a new matchorders job' do
-      # how to test that this is called
+      subject.call
+
+      expect(MatchOrdersJob).to have_been_enqueued.once.with(deserialize_as(stock: stock))
     end
   end
 
