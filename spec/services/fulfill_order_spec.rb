@@ -42,7 +42,7 @@ RSpec.describe FulfillOrder, kind: :service do
     expect(sell_order).to be_fulfilled
   end
 
-  context 'money is transfered' do
+  context 'money is transferred' do
     it 'transfers money from the buyer after fulfilling an order' do
       expect { subject.call }.to change {buy_order.user.money}
     end
