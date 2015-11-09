@@ -45,7 +45,10 @@ RSpec.describe CreateOrder, kind: :service do
     end
 
     it 'doesnt call matchorders job on an invaild order' do
-      # how to test that this is called
+      user.update!(money: 0)
+      subject.call
+
+      expect(MatchOrdersJob).to_not have_been_enqueued
     end
   end
 end
