@@ -15,8 +15,8 @@
   <tbody>
     <% @portfolio.each do |position| %>
       <tr>
-        <td><%= position.symbol %></td>
-        <td><%= position.quantity %></td>
+        <td><%= position.stock.symbol %></td>
+        <td><%= position.total_quantity %></td>
         <td><%= position.market_price %></td>
         <td><%= position.total_value %></td>
         <td><%= position.percentage_change %>%</td>

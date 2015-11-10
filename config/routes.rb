@@ -1,9 +1,8 @@
 Rails.application.routes.draw do
-  resources :orders, only: [:index, :new, :create, :destroy]
   devise_for :users
-  get 'home/index'
-  get 'portfolio/index'
-
+  resources :orders, only: [:index, :new, :create, :destroy]
+  resources :home, only: [:index]
+  resources :portfolio, only: [:index]
   resources :stocks
 
   root 'home#index'
