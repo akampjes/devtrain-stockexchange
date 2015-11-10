@@ -5,7 +5,7 @@ class OrdersController < ApplicationController
   # GET /orders
   # GET /orders.json
   def index
-    @orders = Order.all.by_recently_created
+    @orders = Order.for_user(current_user).by_recently_created
   end
 
   # GET /orders/new
