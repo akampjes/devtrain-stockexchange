@@ -9,8 +9,8 @@ RSpec.describe CreateOrder, kind: :service do
 
   subject { CreateOrder.new(order: buy_order) }
 
-  context 'valid orders' do
-    it 'saves valid orders' do
+  context 'with a valid order' do
+    it 'is saves the order' do
       order = subject.call
 
       expect(order).to be_persisted
@@ -23,8 +23,8 @@ RSpec.describe CreateOrder, kind: :service do
     end
   end
 
-  context 'invaild orders' do
-    it 'adds errors if a user doesnt have enough money to buy shares' do
+  context 'with an invaild order' do
+    it 'is invaild without enough money' do
       user.update!(money: 0)
 
       order = subject.call
@@ -32,7 +32,7 @@ RSpec.describe CreateOrder, kind: :service do
       expect(order.errors).to_not be_empty
     end
 
-    it 'doesnt add errors to non buy orders' do
+    it 'isnt invaild on sell orders' do
       user.update!(money: 0)
 
       # Fails for buy orders
