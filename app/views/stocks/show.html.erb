@@ -9,19 +9,22 @@
       <th>Buy/Sell</th>
       <th>Price</th>
       <th>Quantity</th>
+      <th>Quantity Remaining</th>
+      <th>Fulfilled</th>
     </tr>
   </thead>
 
   <tbody>
-    <% @stock.orders.order(created_at: :desc).each do |order| %>
+    <% @stock.orders.by_recently_fulfilled.by_recently_created.each do |order| %>
       <tr>
         <td><%= order.type %></td>
         <td><%= order.price %></td>
         <td><%= order.quantity %></td>
+        <td><%= order.quantity_unfilled %></td>
+        <td><%= order.fulfilled_at %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<%= link_to 'Edit', edit_stock_path(@stock) %> |
 <%= link_to 'Back', stocks_path %>
