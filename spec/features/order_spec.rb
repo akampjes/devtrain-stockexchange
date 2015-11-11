@@ -23,6 +23,9 @@ RSpec.feature "Orders", type: :feature do
 
   scenario 'Publically display orders' do
     order = create(:buy_order, quantity: 1337)
+    user = order.user
+
+    login_as(user, scope: :user)
 
     visit stock_path(order.stock)
     expect(page).to have_content '1337'

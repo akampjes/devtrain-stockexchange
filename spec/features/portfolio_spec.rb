@@ -9,6 +9,6 @@ RSpec.feature "Portfolio", type: :feature do
 
     expect(page).to have_content "Hi #{user.email}"
     expect(page).to have_content "Current money: #{user.money}"
-    expect(page).to have_content "Symbol Quantity Price Total value Change"
+    expect(page).to have_content "Symbol Quantity Purchase cost Current price Total value Change"
   end
 end
