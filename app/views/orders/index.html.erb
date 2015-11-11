@@ -9,6 +9,7 @@
       <th>Order type</th>
       <th>Quantity</th>
       <th>Price</th>
+      <th>Quantity Remaining</th>
       <th>Fulfilled at</th>
       <th colspan="1"></th>
     </tr>
@@ -21,8 +22,9 @@
         <td><%= order.type %></td>
         <td><%= order.quantity %></td>
         <td><%= order.price %></td>
-        <td><%= order.fulfilled_at %></td>
-        <td><%= link_to 'Destroy', order_path(order), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= order.quantity_unfilled %></td>
+        <td><%= order.canceled? ? 'Canceled' : order.fulfilled_at %></td>
+        <td><%= link_to 'Cancel', order_path(order), method: :delete, data: { confirm: 'Are you sure?' } if order.active? %></td>
       </tr>
     <% end %>
   </tbody>

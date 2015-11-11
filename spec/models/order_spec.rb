@@ -21,10 +21,65 @@ RSpec.shared_examples 'an order' do |order_type|
     it { is_expected.to_not be_fulfilled }
 
     context 'when fulfilled_at is set' do
-      it 'it is fulfilled' do
+      it 'is fulfilled' do
         subject.fulfilled_at = Time.now
 
         expect(subject).to be_fulfilled
+      end
+    end
+  end
+
+  describe '#canceled?' do
+    subject { build(order_type) }
+
+    it { is_expected.to_not be_canceled }
+
+    context 'when status is set to canceled' do
+      it 'is canceled' do
+        subject.status = 'canceled'
+
+        expect(subject).to be_canceled
+      end
+    end
+  end
+
+  describe '#active?' do
+    subject { build(order_type) }
+
+    it { is_expected.to be_active }
+
+    context 'when status is set to canceled' do
+      it 'is not active' do
+        subject.status = 'canceled'
+
+        expect(subject).to_not be_active
+      end
+    end
+
+    context 'when fulfilled_at is set' do
+      it 'is not active' do
+        subject.fulfilled_at = Time.now
+
+        expect(subject).to_not be_active
+      end
+    end
+  end
+
+  describe '#cancel!' do
+    subject { build(order_type) }
+
+    it 'cancels an order' do
+      subject.cancel!
+
+      expect(subject).to be_canceled
+    end
+
+    context 'when order is already fulfilled' do
+      it 'cant be canceled' do
+        subject.fulfilled_at = Time.now
+        subject.cancel!
+
+        expect(subject).to_not be_canceled
       end
     end
   end
