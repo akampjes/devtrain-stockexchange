@@ -34,6 +34,8 @@ RSpec.describe PortfolioController, type: :controller do
 
       expect(assigns(:user)).to eq user
       expect(assigns(:portfolio)).to eq portfolio
+
+      expect(response.status).to eq 200
     end
   end
 end

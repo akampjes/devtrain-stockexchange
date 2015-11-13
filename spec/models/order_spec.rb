@@ -21,11 +21,9 @@ RSpec.shared_examples 'an order' do |order_type|
     it { is_expected.to_not be_fulfilled }
 
     context 'when fulfilled_at is set' do
-      it 'is fulfilled' do
-        subject.fulfilled_at = Time.now
+      before { subject.fulfilled_at = Time.now }
 
-        expect(subject).to be_fulfilled
-      end
+      it { is_expected.to be_fulfilled }
     end
   end
 
@@ -35,11 +33,9 @@ RSpec.shared_examples 'an order' do |order_type|
     it { is_expected.to_not be_canceled }
 
     context 'when status is set to canceled' do
-      it 'is canceled' do
-        subject.status = 'canceled'
+      before { subject.status = 'canceled' }
 
-        expect(subject).to be_canceled
-      end
+      it { is_expected.to be_canceled }
     end
   end
 
@@ -65,11 +61,11 @@ RSpec.shared_examples 'an order' do |order_type|
     end
   end
 
-  describe '#cancel!' do
+  describe '#cancel' do
     subject { build(order_type) }
 
     it 'cancels an order' do
-      subject.cancel!
+      subject.cancel
 
       expect(subject).to be_canceled
     end
@@ -77,7 +73,7 @@ RSpec.shared_examples 'an order' do |order_type|
     context 'when order is already fulfilled' do
       it 'cant be canceled' do
         subject.fulfilled_at = Time.now
-        subject.cancel!
+        subject.cancel
 
         expect(subject).to_not be_canceled
       end

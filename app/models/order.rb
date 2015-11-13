@@ -14,12 +14,14 @@ class Order < ActiveRecord::Base
   validates :price, :quantity, numericality: { greater_than: 0 }
   validates :type, inclusion: { in: %w(BuyOrder SellOrder) }
 
-  def cancel!
-    update(status: 'canceled') unless fulfilled?
+  CANCELED = 'canceled'
+
+  def cancel
+    update(status: CANCELED) unless fulfilled?
   end
 
   def canceled?
-    status == 'canceled'
+    status == CANCELED
   end
 
   def active?
