@@ -30,7 +30,7 @@ RSpec.describe OrdersController, type: :controller do
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    {type: 'BuyOrder', quantity: -1, price: 0, stock_id: stock.id, user: user}
   }
 
   # This should return the minimal set of values that should be in the session

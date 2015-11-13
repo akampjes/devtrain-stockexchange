@@ -1,12 +1,11 @@
 Rails.application.routes.draw do
-  resources :orders, only: [:index, :new, :create, :destroy]
   devise_for :users
-  get 'home/index'
-  get 'portfolio/index'
-
+  resources :orders, only: [:index, :new, :create, :destroy]
+  resources :home, only: [:index]
+  resources :portfolio, only: [:index]
   resources :stocks
 
-  root 'home#index'
+  root 'stocks#index'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

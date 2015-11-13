@@ -1,11 +1,10 @@
 class OrdersController < ApplicationController
   before_action :set_order, only: [:show, :destroy]
-  before_action :authenticate_user!
 
   # GET /orders
   # GET /orders.json
   def index
-    @orders = Order.all.by_recently_created
+    @orders = Order.for_user(current_user).by_recently_created
   end
 
   # GET /orders/new
@@ -43,7 +42,7 @@ class OrdersController < ApplicationController
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_order
-    @order = Order.find(params[:id])
+    @order = Order.for_user(current_user).find(params[:id])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

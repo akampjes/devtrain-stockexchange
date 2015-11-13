@@ -12,6 +12,11 @@
 
     <% if user_signed_in? %>
       <%= link_to 'Sign out', destroy_user_session_path, method: :delete %>
+      <nav>
+        <%= link_to 'Stocks', stocks_path %>
+        <%= link_to 'Portfolio', portfolio_index_path %>
+        <%= link_to 'My orders', orders_path %>
+      </nav>
     <% else %>
       <%= link_to 'Sign in', new_user_session_path %>
       <%= link_to 'Register', new_user_registration_path %>

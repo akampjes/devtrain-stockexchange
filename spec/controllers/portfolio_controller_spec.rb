@@ -18,42 +18,22 @@ require 'rails_helper'
 # Message expectations are only used when there is no simpler way to specify
 # that an instance is receiving a specific message.
 
-RSpec.describe StocksController, type: :controller do
+RSpec.describe PortfolioController, type: :controller do
+  let(:valid_session) { {} }
   let (:user) { create(:user) }
 
-  # This should return the minimal set of attributes required to create a valid
-  # Stock. As you add validations to Stock, be sure to
-  # adjust the attributes here as well.
-  let(:valid_attributes) {
-    {name: 'stock name', symbol: 'stock'}
-  }
-
-  let(:invalid_attributes) {
-    {name: '', symbol: ''}
-  }
-
-  # This should return the minimal set of values that should be in the session
-  # in order to pass any filters (e.g. authentication) defined in
-  # StocksController. Be sure to keep this updated too.
-  let(:valid_session) { {} }
+  before do
+    sign_in user
+  end
 
   describe "GET #index" do
     it "assigns all stocks as @stocks" do
-      stock = Stock.create! valid_attributes
+      portfolio = GeneratePortfolio.new(user: user).call
+
       get :index, {}, valid_session
-      expect(assigns(:stocks)).to eq(Stock.all)
-    end
-  end
 
-  describe "GET #show" do
-    before do
-      sign_in user
-    end
-
-    it "assigns the requested stock as @stock" do
-      stock = Stock.create! valid_attributes
-      get :show, {:id => stock.to_param}, valid_session
-      expect(assigns(:stock)).to eq(stock)
+      expect(assigns(:user)).to eq user
+      expect(assigns(:portfolio)).to eq portfolio
     end
   end
 end
