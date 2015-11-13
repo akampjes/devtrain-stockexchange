@@ -9,20 +9,22 @@ RSpec.describe CreateOrder, kind: :service do
 
   subject { CreateOrder.new(order: buy_order) }
 
-  context 'valid orders' do
-    it 'saves valid orders' do
+  context 'with a valid order' do
+    it 'is saves the order' do
       order = subject.call
 
       expect(order).to be_persisted
     end
 
     it 'queues a new matchorders job' do
-      # how to test that this is called
+      subject.call
+
+      expect(MatchOrdersJob).to have_been_enqueued.once.with(deserialize_as(stock: stock))
     end
   end
 
-  context 'invaild orders' do
-    it 'adds errors if a user doesnt have enough money to buy shares' do
+  context 'with an invaild order' do
+    it 'is invaild without enough money' do
       user.update!(money: 0)
 
       order = subject.call
@@ -30,7 +32,7 @@ RSpec.describe CreateOrder, kind: :service do
       expect(order.errors).to_not be_empty
     end
 
-    it 'doesnt add errors to non buy orders' do
+    it 'isnt invaild on sell orders' do
       user.update!(money: 0)
 
       # Fails for buy orders
@@ -43,7 +45,10 @@ RSpec.describe CreateOrder, kind: :service do
     end
 
     it 'doesnt call matchorders job on an invaild order' do
-      # how to test that this is called
+      user.update!(money: 0)
+      subject.call
+
+      expect(MatchOrdersJob).to_not have_been_enqueued
     end
   end
 end

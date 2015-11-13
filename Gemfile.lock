@@ -161,6 +161,9 @@ GEM
       rspec-core (~> 3.3.0)
       rspec-expectations (~> 3.3.0)
       rspec-mocks (~> 3.3.0)
+    rspec-activejob (0.6.1)
+      activejob (>= 4.2)
+      rspec-mocks
     rspec-core (3.3.2)
       rspec-support (~> 3.3.0)
     rspec-expectations (3.3.1)
@@ -237,6 +240,7 @@ DEPENDENCIES
   pry
   rails (= 4.2.4)
   rb-fsevent
+  rspec-activejob
   rspec-rails
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)

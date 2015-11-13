@@ -7,6 +7,7 @@ require 'spec_helper'
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 require 'capybara/rails'
+require 'rspec/active_job'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -34,6 +35,13 @@ RSpec.configure do |config|
   config.include Warden::Test::Helpers
   config.before :suite do
     Warden.test_mode!
+  end
+
+  config.include(RSpec::ActiveJob)
+
+  config.after(:each) do
+    ActiveJob::Base.queue_adapter.enqueued_jobs = []
+    ActiveJob::Base.queue_adapter.performed_jobs = []
   end
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
