@@ -107,6 +107,19 @@ RSpec.describe MatchOrders, kind: :service do
       end
     end
 
+    context 'when an order is canceled' do
+      it 'doesnt fulfill an order' do
+        buy1 = user.buy_orders.create!(stock: stock, quantity: 100, price: 2, status: 'canceled')
+        sell1 =  user.sell_orders.create!(stock: stock, quantity: 100, price: 2)
+
+        MatchOrders.new(stock: stock).call
+
+        expect(buy1.reload).to_not be_fulfilled
+        expect(sell1.reload).to_not be_fulfilled
+      end
+    end
+
+
     it 'doesnt call FulfillOrder' do
       buy1 = user.buy_orders.create!(stock: stock, quantity: 100, price: 2)
       sell1 = user.sell_orders.create!(stock: stock, quantity: 100, price: 3)

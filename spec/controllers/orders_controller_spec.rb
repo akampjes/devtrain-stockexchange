@@ -102,11 +102,13 @@ RSpec.describe OrdersController, type: :controller do
   end
 
   describe "DELETE #destroy" do
-    it "destroys the requested order" do
+    it "cancels the requested order" do
       order = Order.create! valid_attributes
-      expect {
-        delete :destroy, {:id => order.to_param}, valid_session
-      }.to change(Order, :count).by(-1)
+
+      delete :destroy, {:id => order.to_param}, valid_session
+      order.reload
+
+      expect(order).to be_canceled
     end
 
     it "redirects to the orders list" do

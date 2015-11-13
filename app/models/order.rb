@@ -4,6 +4,7 @@ class Order < ActiveRecord::Base
 
   scope :unfulfilled, -> { where(fulfilled_at: nil) }
   scope :fulfilled, -> { where.not(fulfilled_at: nil) }
+  scope :active, -> { where(status: nil).where(fulfilled_at: nil) }
   scope :by_recently_fulfilled, -> { order(fulfilled_at: :desc) }
   scope :by_recently_created, -> { order(created_at: :desc) }
   scope :stock, -> (stock) { where(stock: stock) }
@@ -12,6 +13,20 @@ class Order < ActiveRecord::Base
   validates :stock, :user, presence: true
   validates :price, :quantity, numericality: { greater_than: 0 }
   validates :type, inclusion: { in: %w(BuyOrder SellOrder) }
+
+  CANCELED = 'canceled'
+
+  def cancel
+    update(status: CANCELED) unless fulfilled?
+  end
+
+  def canceled?
+    status == CANCELED
+  end
+
+  def active?
+    !canceled? && !fulfilled?
+  end
 
   def fulfilled?
     fulfilled_at.present?
